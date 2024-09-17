@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title fw-semibold mb-4">Dental Care</h5>
+              <p class="text-justify">Welcome to Dental Care, where your smile is our top priority. Our team of highly skilled and compassionate dental professionals is
+                 committed to providing the highest quality of care in a comfortable and friendly environment. From routine cleanings and preventive care to advanced cosmetic
+                 and restorative treatments, we offer a full range of services tailored to meet the unique needs of each patient. <br> At Dental Care, we use the latest technology
+                 and techniques to ensure you receive the best possible care. Your oral health is our mission, and we are 
+                 here to help you achieve a beautiful, healthy smile for life.</p>
+            </div>
+          </div>
+        </div>
+        <h1 class="card-title fw-semibold mb-4">Services</h1>
+        <div class="row">
+          {% for i in featured %}
+          <div class="col-sm-6 col-xl-3">
+            <div class="card overflow-hidden rounded-2">
+              <div class="position-relative">
+                <img src="/{{i.featured_photo}}" class="card-img-top rounded-0" alt="Product Image">                    
+              </div>
+              <div class="card-body pt-3 p-4">
+                <h6 class="fw-semibold fs-4">{{i.name}}</h6>
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="fw-semibold fs-4 mb-0">${{i.discounted_price}}<span class="ms-2 fw-normal text-muted fs-3"><del>${{i.full_price}}</del></span></h6>
+                  <ul class="list-unstyled d-flex align-items-center mb-0">
+                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary m-1">Book Schedule</button>
+            </div>
+          </div>
+          {% endfor %}
+     
+          
+        </div>
+{%endblock%}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-body p-4">
+            <h5 class="card-title fw-semibold mb-4">Patients</h5>
+            <div class="table-responsive">
+              <table class="table text-nowrap mb-0 align-middle">
+                <thead class="text-dark fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Profile Picture</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Full Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Email</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0 text-center">Username</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Contact Number</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Address</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Postal Code</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Send Invoice</h6>
+                      </th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for i in client %}
+                  <tr>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{i.admin.id}}</h6></td>
+                    <td class="border-bottom-0 text-center">
+                      {% if i.admin.profile_pic == "" %}
+                      <img src="{% static 'assets/images/profile/user-1.jpg' %}" alt="" width="35" height="35" class="rounded-circle bg-success" >
+                      {% else %}
+                      <img src="/{{i.admin.profile_pic}}" alt="" width="35" height="35" class="rounded-circle bg-success">
+                      {%endif%}</td>
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">{{i.admin.first_name}} {{i.admin.last_name}}</h6>                          
+                    </td>
+                    <td class="border-bottom-0">
+                      <p class="mb-0 fw-normal">{{i.admin.email}}</p>
+                    </td>
+                    
+                    <td class="border-bottom-0 text-center">
+                      <h6 class="mb-0 fw-normal">{{i.admin.username}}</h6>
+                    </td>
+                    <td class="border-bottom-0 text-center">
+                        <h6 class="mb-0 fw-normal">{{i.admin.contact_number}}</h6>
+                    </td>
+                    <td class="border-bottom-0 text-center">
+                        <h6 class="mb-0 fw-normal">{{i.admin.address}}</h6>
+                    </td>
+                    <td class="border-bottom-0 text-center">
+                        <h6 class="mb-0 fw-normal">{{i.admin.postal}}</h6>
+                    </td>
+                    <td class="border-bottom-0 text-center">
+                      <button type="submit" class="btn btn-primary" style="margin-top: -5px;" data-bs-toggle="modal" data-bs-target="#exampleModal-{{forloop.counter}}" > <i class="ti ti-brand-telegram"></i>&nbsp;Send</button>
+                    </td>
+                  </tr> 
+                 {%endfor%}               
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- MODAL -->
+ {% for i in client %}
+  <div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Recipient:</label>
+              <input type="text" class="form-control" id="recipient-name" value="{{i.admin.first_name}} {{i.admin.last_name}}">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Send message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+{%endblock%}

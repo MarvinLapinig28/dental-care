@@ -1,0 +1,95 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        {% include 'includes/messages.html'%}
+        <div class="row">
+          <div class="col-md-4">
+            <h5 class="card-title fw-semibold mb-4">Profile</h5>
+            <div class="card">
+              {% if user.profile_pic == "" %}
+              <img src="{% static 'assets/images/profile/user-1.jpg' %}"  class="card-img-top" alt="" >
+              {% else %}
+              <img src="/{{user.profile_pic}}"  class="card-img-top" alt="">
+              {%endif%}
+              <div class="card-body">
+                {% if user.user_type == '1' %}
+                <h5 class="card-title"> Admin Profile </h5>
+                {%elif user.user_type == '2'%}
+                <h5 class="card-title"> Patient Profile </h5>
+                {%else%}
+                {%endif%}
+                <br>
+                <h6 class="card-text"><i class="ti ti-map-pin"></i>&nbsp;&nbsp;{{user.address}}</h6>
+                <h6 class="card-text"><i class="ti ti-phone"></i></i>&nbsp;&nbsp;{{user.contact_number}}</h6>
+                <h6 class="card-text"><i class="ti ti-mail"></i>&nbsp;&nbsp;{{user.email}}</h6>
+              </div>
+            </div>
+            
+          </div>
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                Basic Information
+              </div>
+              <div class="card-body">
+                <form method="post" action="{% url 'profile_update' %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label class="form-label">Profile Picture</label>
+                    <input type="file" class="form-control"  name="profile_pic" >
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">First Name</label>
+                      <input type="text" class="form-control"  name="first_name" value="{{user.first_name}}" >
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Last Name</label>
+                      <input type="text" class="form-control" name="last_name" value="{{user.last_name}}" >
+                    </div>
+                <div class="mb-3">
+                  <label  class="form-label">Email address</label>
+                  <input type="email" class="form-control" name="email" value="{{user.email}}" >
+                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Usermame</label>
+                  <input type="text" class="form-control" name="username" value="{{user.username}}" >
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Fill Only If You Change! ">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Contact Number</label>
+                  <input type="text" class="form-control" name="contact_number" value="{{user.contact_number}}" >
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <input type="text" class="form-control" name="address" value="{{user.address}}" >
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Postal Code</label>
+                  <input type="text" class="form-control" name="postal" value="{{user.postal}}" >
+                </div>
+             
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+              </form>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{%endblock%}

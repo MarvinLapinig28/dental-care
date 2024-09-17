@@ -1,0 +1,85 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-body p-4">
+          {% include 'includes/messages.html'%}
+            <h5 class="card-title fw-semibold mb-4">Dental Featured</h5>
+            <div class="table-responsive">
+              <table class="table text-nowrap mb-0 align-middle">
+                <thead class="text-dark fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Featured Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Full Price</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0 text-center">Discounted Price</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Action</h6>
+                      </th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for i in featured %}
+                  <tr>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{i.id}}</h6></td>
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">{{i.name}}</h6>                          
+                    </td>
+                    <td class="border-bottom-0">
+                      <p class="mb-0 fw-normal">${{i.full_price}}</p>
+                    </td>
+                    
+                    <td class="border-bottom-0 text-center">
+                      <h6 class="fw-semibold mb-0 fs-4">${{i.discounted_price}}</h6>
+                    </td>
+                    <td class="border-bottom-0 text-center">
+                        <a href="{% url 'edit_featured' i.id %}" class="btn btn-secondary" style="margin-top: -5px;"> <i class="ti ti-edit"></i>&nbsp;Edit</a> &nbsp;&nbsp;
+                        <button type="submit" class="btn btn-danger" style="margin-top: -5px;"  data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{forloop.counter}}"  ><i class="ti ti-trash-x"></i>&nbsp;Delete</button>
+                    </td>
+                  </tr> 
+                 {%endfor%}               
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal -->
+ {% for i in featured %}
+<div class="modal fade" id="staticBackdrop-{{forloop.counter}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4 class="text-center">Are you sure want to delete &nbsp;<strong>{{i.name}}</strong>?</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="{% url 'delete_featured' i.id %}" type="button" class="btn btn-danger">Delete</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+
+{%endblock%}
