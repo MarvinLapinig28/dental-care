@@ -17,12 +17,9 @@
               <img src="/{{user.profile_pic}}"  class="card-img-top" alt="">
               {%endif%}
               <div class="card-body">
-                {% if user.user_type == '1' %}
-                <h5 class="card-title"> Admin Profile </h5>
-                {%elif user.user_type == '2'%}
-                <h5 class="card-title"> Patient Profile </h5>
-                {%else%}
-                {%endif%}
+
+                <h5 class="card-title"> {{user.first_name}}&nbsp;&nbsp;{{user.last_name}} </h5>
+      
                 <br>
                 <h6 class="card-text"><i class="ti ti-map-pin"></i>&nbsp;&nbsp;{{user.address}}</h6>
                 <h6 class="card-text"><i class="ti ti-phone"></i></i>&nbsp;&nbsp;{{user.contact_number}}</h6>
@@ -90,6 +87,7 @@
     </div>
   </div>
 </div>
+
 
 
 {%endblock%}

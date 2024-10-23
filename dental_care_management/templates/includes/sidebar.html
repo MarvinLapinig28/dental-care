@@ -55,21 +55,22 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+              <a class="sidebar-link" href="{% url 'view_request' %}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-file-description"></i>
+                  <i class="ti ti-report-analytics"></i>
                 </span>
-                <span class="hide-menu">Notifications</span>
+                <span class="hide-menu">Patient Request</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+              <a class="sidebar-link" href="{% url 'doLogout'%}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-typography"></i>
+                  <i class="ti ti-logout"></i>
                 </span>
-                <span class="hide-menu">Typography</span>
+                <span class="hide-menu">Logout</span>
               </a>
             </li>
+    
           </ul>
         
         </nav>
@@ -104,7 +105,15 @@
               <span class="hide-menu">Navigations</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+              <a class="sidebar-link" href="{% url 'view_request_patient' %}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-file-description"></i>
+                </span>
+                <span class="hide-menu">View Request</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'view_schedule' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-article"></i>
                 </span>

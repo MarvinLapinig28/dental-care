@@ -6,7 +6,7 @@
     <div class="card">
       <div class="card-body">
         <div class="card-body p-4">
-            <h5 class="card-title fw-semibold mb-4">Patients</h5>
+            <h5 class="card-title fw-semibold mb-4">Patients Request</h5>
             <div class="table-responsive">
               <table class="table text-nowrap mb-0 align-middle">
                 <thead class="text-dark fs-4">
@@ -15,16 +15,10 @@
                       <h6 class="fw-semibold mb-0">Id</h6>
                     </th>
                     <th class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0">Profile Picture</h6>
-                    </th>
+                        <h6 class="fw-semibold mb-0">Featured</h6>
+                      </th>
                     <th class="border-bottom-0">
                       <h6 class="fw-semibold mb-0">Full Name</h6>
-                    </th>
-                    <th class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0">Email</h6>
-                    </th>
-                    <th class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0 text-center">Username</h6>
                     </th>
                     <th class="border-bottom-0">
                         <h6 class="fw-semibold mb-0 text-center">Contact Number</h6>
@@ -33,45 +27,56 @@
                         <h6 class="fw-semibold mb-0 text-center">Address</h6>
                       </th>
                       <th class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0 text-center">Postal Code</h6>
+                        <h6 class="fw-semibold mb-0 text-center">Mode Of Payment</h6>
                       </th>
                       <th class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0 text-center">Send Invoice</h6>
+                        <h6 class="fw-semibold mb-0 text-center">Status</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Approval</h6>
                       </th>
                   </tr>
                 </thead>
                 <tbody>
-                    {% for i in client %}
+                    {% for i in client_request %}
                   <tr>
-                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{i.admin.id}}</h6></td>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{i.id}}</h6></td>
                     <td class="border-bottom-0 text-center">
-                      {% if i.admin.profile_pic == "" %}
-                      <img src="{% static 'assets/images/profile/user-1.jpg' %}" alt="" width="35" height="35" class="rounded-circle bg-success" >
-                      {% else %}
-                      <img src="/{{i.admin.profile_pic}}" alt="" width="35" height="35" class="rounded-circle bg-success">
-                      {%endif%}</td>
-                    <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1">{{i.admin.first_name}} {{i.admin.last_name}}</h6>                          
+                        <h6 class="mb-0 fw-normal">{{i.featured_id}}</h6>
                     </td>
                     <td class="border-bottom-0">
-                      <p class="mb-0 fw-normal">{{i.admin.email}}</p>
-                    </td>
-                    
-                    <td class="border-bottom-0 text-center">
-                      <h6 class="mb-0 fw-normal">{{i.admin.username}}</h6>
+                        <h6 class="fw-semibold mb-1">{{i.client_id.admin.first_name}} {{i.client_id.admin.last_name}}</h6>                          
                     </td>
                     <td class="border-bottom-0 text-center">
-                        <h6 class="mb-0 fw-normal">{{i.admin.contact_number}}</h6>
+                        <h6 class="mb-0 fw-normal">{{i.contact_number}}</h6>
                     </td>
                     <td class="border-bottom-0 text-center">
-                        <h6 class="mb-0 fw-normal">{{i.admin.address}}</h6>
+                        <h6 class="mb-0 fw-normal">{{i.address}}</h6>
                     </td>
                     <td class="border-bottom-0 text-center">
-                        <h6 class="mb-0 fw-normal">{{i.admin.postal}}</h6>
+                        <h6 class="mb-0 fw-normal">{{i.payment}}</h6>
                     </td>
                     <td class="border-bottom-0 text-center">
-                      <button type="submit" class="btn btn-primary" style="margin-top: -5px;" data-bs-toggle="modal" data-bs-target="#exampleModal-{{forloop.counter}}" > <i class="ti ti-brand-telegram"></i>&nbsp;Send</button>
+                        <h6 class="mb-0 fw-normal">
+                            {% if i.status == 0 %}
+                            <span class="badge bg-warning">Pending</span>
+                            {% elif i.status == 1 %}
+                            <span class="badge bg-success">Success</span>
+                            {% elif i.status == 2 %}
+                            <span class="badge bg-danger">Canceled</span>
+                            {% endif %}</h6>
                     </td>
+                    <td class="border-bottom-0 text-center">
+                      {% if i.status == 0 %}
+                      <a href="{% url 'approve_request' i.id %}" class="btn btn-outline-primary m-1">Take Up</a>
+                      <a href="{% url 'reject_request' i.id %}" class="btn btn-outline-danger m-1" disabled >Reject</a>
+                      {% elif i.status == 1 %}
+                      <button type="button" class="btn btn-outline-success m-1" disabled >Taked Up</button>
+                      {% elif i.status == 2 %}
+                      <button type="button" class="btn btn-outline-danger m-1" disabled >Reject</button>
+                      {% endif %}
+                  </td>
+                
                   </tr> 
                  {%endfor%}               
                 </tbody>
@@ -93,32 +98,21 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="{% url 'patient_invoice' %}" enctype="multipart/form-data">
-            {% csrf_token %}
+          <form>
             <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Recipient:</label>
               <input type="text" class="form-control" id="recipient-name" value="{{i.admin.first_name}} {{i.admin.last_name}}">
-              <input type="text" class="form-control floating" name="client_id" value="{{i.admin.id}}" hidden >
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Date of Service</label>
-              <input type="date" class="form-control"  name="date" >
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Time Appointed</label>
-              <input type="text" class="form-control" placeholder="e.g., 02:30 PM" name="time" >
             </div>
             <div class="mb-3">
               <label for="message-text" class="col-form-label">Message:</label>
-              <textarea class="form-control" id="message-text" name="message"></textarea>
+              <textarea class="form-control" id="message-text"></textarea>
             </div>
-          
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Send message</button>
+          <button type="button" class="btn btn-primary">Send message</button>
         </div>
-      </form>
       </div>
     </div>
   </div>

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-body p-4">
+            <h5 class="card-title fw-semibold mb-4">Your Request</h5>
+            <div class="table-responsive">
+              <table class="table text-nowrap mb-0 align-middle">
+                <thead class="text-dark fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Full Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Time Appointed</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Date</h6>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center">Message</h6>
+                      </th>                 
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for i in client_invoice %}
+                  <tr>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{i.id}}</h6></td>
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">{{i.client_id.admin.first_name}} {{i.client_id.admin.last_name}}</h6>                          
+                    </td>
+                    <td class="border-bottom-0 text-center">
+                        <h6 class="mb-0 fw-normal">{{i.time}}</h6>
+                    </td>
+                    <td class="border-bottom-0 text-center">
+                        <h6 class="mb-0 fw-normal">{{i.date}}</h6>
+                    </td>  
+                    <td class="border-bottom-0 text-center">
+                        <button type="submit" class="btn btn-primary" style="margin-top: -5px;" data-bs-toggle="modal" data-bs-target="#exampleModal-{{forloop.counter}}" > <i class="ti ti-brand-telegram"></i>&nbsp;View Message</button>
+                      </td>             
+                  </tr> 
+                 {%endfor%}               
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  
+  {% for i in client_invoice %}
+  <div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{% url 'patient_invoice' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Recipient:</label>
+              <input type="text" class="form-control" id="recipient-name" value="{{i.client_id.admin.first_name}} {{i.client_id.admin.last_name}}">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text" name="message" >{{i.message}}</textarea>
+            </div>
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+{%endblock%}

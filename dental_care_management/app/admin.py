@@ -14,3 +14,5 @@ class UserModel(UserAdmin):
 admin.site.register(CustomUser,UserModel)
 admin.site.register(Client)
 admin.site.register(Featured)
+admin.site.register(Client_Request)
+admin.site.register(Client_Invoice)

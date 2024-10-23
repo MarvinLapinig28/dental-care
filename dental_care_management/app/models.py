@@ -41,3 +41,26 @@ class Featured(models.Model):
     def __str__(self):
         return self.name
     
+class Client_Request(models.Model):
+    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    address = models.TextField()
+    contact_number = models.TextField()
+    status = models.IntegerField(default=0)
+    featured_id = models.ForeignKey(Featured, on_delete=models.DO_NOTHING)
+    payment = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.client_id.admin.first_name + " " + self.client_id.admin.last_name
+    
+class Client_Invoice(models.Model):
+    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    message = models.TextField()
+    created = models.DateField(auto_now_add=True)
+    status = models.IntegerField(null=True, default=0)
+    date = models.CharField(max_length=100)
+    time = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.client_id.admin.first_name + " " + self.client_id.admin.last_name
+
+

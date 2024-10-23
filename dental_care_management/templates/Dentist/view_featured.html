@@ -38,11 +38,11 @@
                         <h6 class="fw-semibold mb-1">{{i.name}}</h6>                          
                     </td>
                     <td class="border-bottom-0">
-                      <p class="mb-0 fw-normal">${{i.full_price}}</p>
+                      <p class="fw-semibold mb-0 fs-4">${{i.full_price}}</p>
                     </td>
                     
                     <td class="border-bottom-0 text-center">
-                      <h6 class="fw-semibold mb-0 fs-4">${{i.discounted_price}}</h6>
+                      <h6 class="mb-0 fw-normal">${{i.discounted_price}}</h6>
                     </td>
                     <td class="border-bottom-0 text-center">
                         <a href="{% url 'edit_featured' i.id %}" class="btn btn-secondary" style="margin-top: -5px;"> <i class="ti ti-edit"></i>&nbsp;Edit</a> &nbsp;&nbsp;

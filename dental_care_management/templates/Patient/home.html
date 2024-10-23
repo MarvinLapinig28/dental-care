@@ -5,12 +5,35 @@
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Dental Care</h5>
-              <p class="text-justify">Welcome to Dental Care, where your smile is our top priority. Our team of highly skilled and compassionate dental professionals is
-                 committed to providing the highest quality of care in a comfortable and friendly environment. From routine cleanings and preventive care to advanced cosmetic
-                 and restorative treatments, we offer a full range of services tailored to meet the unique needs of each patient. <br> At Dental Care, we use the latest technology
-                 and techniques to ensure you receive the best possible care. Your oral health is our mission, and we are 
-                 here to help you achieve a beautiful, healthy smile for life.</p>
+              <div class="row">
+                <div class="col-md-4">
+                  <h5 class="card-title fw-semibold mb-4">Dentist</h5>
+                  <div class="card">
+                    <img src="/{{superuser.profile_pic}}"  class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title"> Doc. {{superuser.first_name}} {{superuser.last_name}}</h5>
+                      <br>
+                      <h6 class="card-text"><i class="ti ti-map-pin"></i>&nbsp;&nbsp;{{superuser.address}}</h6>
+                      <h6 class="card-text"><i class="ti ti-phone"></i></i>&nbsp;&nbsp;{{superuser.contact_number}}</h6>
+                      <h6 class="card-text"><i class="ti ti-mail"></i>&nbsp;&nbsp;{{superuser.email}}</h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="card">
+                    <div class="card-header">
+                      Dental care
+                    </div>
+                    <div class="card-body">
+                     <h5 style="text-align: justify;">
+                      Welcome to Dental Care, where your smile is our top priority. Our team of highly skilled and compassionate dental professionals is committed to providing the highest quality of care in a comfortable and friendly environment. <br> From routine cleanings and preventive care to advanced cosmetic and restorative treatments, we offer a full range of services tailored to meet the unique needs of each patient.
+                      <br><br>At Dental Care, we use the latest technology and techniques to ensure you 
+                      receive the best possible care. <br> <br>
+                      Your oral health is our mission, and we are
+                       here to help you achieve a beautiful, healthy smile for life.</h5>
+                    </div>
+                  </div>
+                  </div>
             </div>
           </div>
         </div>
@@ -35,11 +58,62 @@
                   </ul>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary m-1">Book Schedule</button>
+              <button type="button" class="btn btn-primary" m-1 data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{forloop.counter}}">Book Schedule</button>
             </div>
           </div>
-          {% endfor %}
-     
-          
+          {% endfor %}   
         </div>
+        <!-- Modal -->
+ {% for i in featured %}
+ <div class="modal fade" id="staticBackdrop-{{forloop.counter}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{i.name}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'patient_request' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Featured</label>
+            <input type="text" class="form-control" name="featured_id" value="{{i.name}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name" value="{{user.first_name}}">
+            <input type="text" class="form-control" name="user_id" value="{{user.id}}" hidden>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="last_name" value="{{user.last_name}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Contact Number</label>
+            <input type="text" class="form-control" name="contact_number" value="{{user.contact_number}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            <input type="text" class="form-control" name="address" value="{{user.address}}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Mode of Payment</label>
+            <select class="form-control" name="payment" required>
+              <option value=""></option>
+              <option value="Gcash">Gcash</option>
+              <option value="Pay on Service">Pay on Service</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Book</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+ {% endfor %}
+ 
 {%endblock%}
