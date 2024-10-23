@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from app.models import Featured, CustomUser , Client_Request , Client , Client_Invoice
 
+
+@login_required(login_url='/')
 def HOME(request):
     superuser = CustomUser.objects.filter(is_superuser=True).first() 
     featured = Featured.objects.all()
@@ -11,6 +13,7 @@ def HOME(request):
     }
     return render(request,'Patient/home.html',context)
 
+@login_required(login_url='/')
 def PATIENT_REQUEST(request):
     if request.method == "POST":
         user_id = request.POST.get('user_id')
@@ -33,6 +36,7 @@ def PATIENT_REQUEST(request):
         client_request.save()
         return redirect ('patient_home')
     
+@login_required(login_url='/')
 def VIEW_REQUEST(request):
     client = Client.objects.filter(admin=request.user.id)
     for i in client:
@@ -44,6 +48,7 @@ def VIEW_REQUEST(request):
     }
     return render(request,'Patient/view_request.html',context)
 
+@login_required(login_url='/')
 def VIEW_SCHEDULE(request):
     client = Client.objects.filter(admin=request.user.id)
     for i in client:

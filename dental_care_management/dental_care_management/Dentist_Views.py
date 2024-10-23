@@ -19,6 +19,7 @@ def HOME(request):
     }
     return render(request,'Dentist/home.html',context)
 
+@login_required(login_url='/')
 def FEATURED(request):
     if request.method == "POST":
         featured_photo = request.FILES.get('featured_photo')
@@ -37,6 +38,7 @@ def FEATURED(request):
         return redirect('featured_add')
     return render(request,'Dentist/featured.html')
 
+@login_required(login_url='/')
 def VIEW(request):
     featured = Featured.objects.all()
     context = {
@@ -44,6 +46,7 @@ def VIEW(request):
     }
     return render(request,'Dentist/view_featured.html',context)
 
+@login_required(login_url='/')
 def EDIT_FEATURED(request,id):
     featured = Featured.objects.get(id = id)
     context = {
@@ -51,6 +54,7 @@ def EDIT_FEATURED(request,id):
     }
     return render(request,'Dentist/edit_featured.html',context)
 
+@login_required(login_url='/')
 def UPDATE_FEATURED(request):
     if request.method == "POST":
         featured_photo = request.FILES.get('featured_photo')
@@ -71,12 +75,14 @@ def UPDATE_FEATURED(request):
         return redirect('view_featured')
     return render(request,'Dentist/view_featured.html')
 
+@login_required(login_url='/')
 def DELETE_FEATURED(request,id):
     featured = Featured.objects.get(id=id)
     featured.delete()
     messages.success(request,'Featured Are Successfully Deleted! ')
     return redirect('view_featured')
 
+@login_required(login_url='/')
 def VIEW_PATIENT(request):
     client = Client.objects.all()
     context = {
@@ -84,6 +90,7 @@ def VIEW_PATIENT(request):
     }
     return render(request,'Dentist/view_patient.html',context)
 
+@login_required(login_url='/')
 def VIEW_REQUEST(request):
     client_request = Client_Request.objects.all().order_by('-id')
     context = {
@@ -91,12 +98,14 @@ def VIEW_REQUEST(request):
     }
     return render(request,'Dentist/view_patient_request.html',context)
 
+@login_required(login_url='/')
 def REQUEST_APPROVE(request,id):
     client = Client_Request.objects.get(id=id)
     client.status = 1
     client.save()
     return redirect('view_request')
 
+@login_required(login_url='/')
 def REJECT_REQUEST(request,id):
     client = Client_Request.objects.get(id=id)
     client.status = 2
@@ -104,6 +113,7 @@ def REJECT_REQUEST(request,id):
     return redirect('view_request')
 
 
+@login_required(login_url='/')
 def PATIENT_INVOICE(request):
     if request.method == "POST":
         client_id = request.POST.get('client_id')
